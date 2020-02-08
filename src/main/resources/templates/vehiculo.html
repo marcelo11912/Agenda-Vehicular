@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmls:th="https://www.thymeleaf.org">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="Icon" href="imagenes/icono.ico">
+        <title>Agenda de Mantenimiento Vehicular</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/principalCss.css}">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    </head>
+
+    <body>
+        <div class="wrapper">
+
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>Agenda de Mantemiento Vehicular</h3>
+                    <strong>AMV</strong>
+
+                </div>
+
+                <ul class="list-unstyled components">
+
+                    <li >
+                        <a th:href="@{/principal}">
+                            <i class="fas fa-home"></i>
+                            Inicio
+                        </a>
+
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/vehiculo}">
+                            <i class="fa fa-car"></i>
+                            Vehiculo
+                        </a>
+                    </li>
+
+
+                    </li>
+
+
+                </ul>
+
+
+            </nav>
+
+            <div id="content">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-info">
+                            <i class="fas fa-align-left"></i>
+
+                        </button>
+                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fas fa-align-justify"></i>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav ml-auto">
+                                <li class="nav-item ">
+                                    <a class="nav-link" th:href="@{/principal}">Inicio</a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" th:href="@{/vehiculo}">Vehiculo</a>
+                                </li>
+
+
+                                <li>
+                                    <form th:action="@{/logout}" method="post">
+                                        <button type="submit" class="btn btn-info">Cerrar Sesión</button>
+
+                                    </form>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div class="alert alert-success  alert-dismissible"  th:if="${success != null}"  th:text="${success}"></div>
+                <div class="alert alert-danger"th:if="${error != null}" th:text="${error}"></div>
+                <div class="alert alert-warning"th:if="${warning != null}" th:text="${warning}"></div>
+                <div class="alert alert-info" th:if="${info != null}" th:text="${info}"></div>
+                <h5 class="card-title">
+                    <span> <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </span>
+                    <a th:href="@{/formVehiculo}">Nuevo Vehiculo</a>
+                </h5>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Mant.</th>
+                            <th>KM</th>
+                            <th>Id</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Placa</th>
+                            <th>Kilometraje</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr th:each="vehiculo :${vehiculos}">
+                            <td><a class=" btn btn-info" th:href="@{/verVehiculo/}+${vehiculo.idvehiculo}" > <i class="fa fa-book" aria-hidden="true"></i></a> </td>
+                            <td><a class="btn btn-info" th:href="@{/formKM/} + ${vehiculo.idvehiculo}"><i class="fa fa-road" aria-hidden="true"></i></a> </td>
+                            <td th:text="${vehiculo.idvehiculo}"> </td> 
+                            <td th:text="${vehiculo.marca}"> </td>  
+                            <td th:text="${vehiculo.opt}"> </td>  
+                            <td th:text="${vehiculo.placa}"> </td>
+                            <td th:text="${vehiculo.kilometraje}"> </td>
+
+                            <td><a class="btn btn-primary" th:href="@{/formVehiculo/} + ${vehiculo.idvehiculo}"><i class="fa fa-car" aria-hidden="true"></i></a> </td>
+                            <td><a class="btn btn-danger " th:href="@{/eliminar/} + ${vehiculo.idvehiculo}" ><i class="fa fa-trash" aria-hidden="true"></i> </a> </td>
+
+
+                        </tr>   
+
+                    </tbody>
+
+
+                </table>
+
+
+
+            </div>
+
+
+            <!-- jQuery CDN - Slim version (=without AJAX) -->
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <!-- Popper.JS -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#sidebarCollapse').on('click', function () {
+                        $('#sidebar').toggleClass('active');
+                    });
+                });
+            </script>
+            <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    </body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html xmls:th="https://www.thymeleaf.org">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+         <link rel="Icon" href="imagenes/icono.ico">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/principalCss.css}">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    </head>
+    <body   >
+        <div class="wrapper">
+
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>Agenda de Mantemiento Vehicular</h3>
+                    <strong>AMV</strong>
+
+                </div>
+
+                <ul class="list-unstyled components">
+                    <li >
+                        <a th:href="@{/principal}">
+                            <i class="fas fa-home"></i>
+                            Inicio
+                        </a>
+
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/vehiculo}">
+                            <i class="fa fa-car"></i>
+                            Vehiculo
+                        </a>
+                    </li>
+                    
+
+
+                </ul>
+            </nav>
+
+
+            <div id="content">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-info">
+                            <i class="fas fa-align-left"></i>
+
+                        </button>
+                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fas fa-align-justify"></i>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav ml-auto">
+                                <li class="nav-item ">
+                                    <a class="nav-link" th:href="@{/principal}">Inicio</a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" th:href="@{/vehiculo}">Vehiculo</a>
+                                </li>
+                               
+
+                                <li>
+                                    <form th:action="@{/logout}" method="post">
+                                        <button type="submit" class="btn btn-info">Cerrar Sesión</button>
+
+                                    </form>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <div>
+                    <h3 th:text="${titulo}"></h3>
+                    <br>
+                   
+
+                    <form name="formVehiculo" th:action="@{/formVehiculo}" th:object="${vehiculo}" method="post">
+                        <div class="row">
+
+                            <input type="hidden" th:field="*{idvehiculo}" >
+
+                            <div class="col-md-5 mb-3">
+                                <label >Marca</label>
+                                <select  th:field="*{marca}" name="marca" class="custom-select  d-block w-100" id="marca"  onclick="Cambio();" >
+                                    <option value="0">Escoger...</option>
+                                    <option value="Hyundai">Hyundai</option>
+                                    <option value="Mazda">Mazda</option>
+                                    <option value="Ford">Ford</option>
+                                    <option value="Kia">Kia</option>
+                                    <option value="Chevrolet">Chevrolet</option>
+
+                                </select >
+                                <small class="form-text text-danger" th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"></small>
+
+                            </div>
+
+
+                            <div class="col-md-4 mb-3">
+                                <label >Modelo</label>
+                                <select  th:field="*{opt}"  name="opt" id="modelo"  class="custom-select d-block w-100">
+                                    <option value="0">Escoger...</option>
+                                </select>
+                                <small class="form-text text-danger" th:if="${#fields.hasErrors('opt')}" th:errors="*{opt}"></small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 mb-3">
+                                <label >Tipo</label>
+                                <select  th:field="*{tipo}" name="tipo" class="custom-select  d-block w-100" id="tipo" >
+                                    <option value="">Escoger...</option>
+                                    <option value="Furgoneta">Furgoneta</option>
+                                    <option value="4x4">4x4</option>
+                                    <option value="Camioneta">Camioneta</option>
+                                    <option value="Mixto Adaptable">Mixto Adaptable</option>
+
+                                </select >
+                                <small class="form-text text-danger" th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"></small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-5 mb-3">
+                                <label for="ex3" >Kilometraje</label>
+                                <input th:field="*{kilometraje}" type="text" class="form-control" id="kilometraje" >
+                                <small class="form-text text-danger" th:if="${#fields.hasErrors('kilometraje')}" th:errors="*{kilometraje}"></small>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <label  >Placa</label>
+                                <input th:field="*{placa}" type="text" class="form-control" id="placa" placeholder="AAA-0000" >
+                                <small class="form-text text-danger" th:if="${#fields.hasErrors('placa')}" th:errors="*{placa}"></small>
+
+                            </div>
+
+                        </div>
+                        <input type="hidden" th:field="*{idvehiculo}"  >
+                        <hr class="mb-4">
+                        <input type="submit" th:value="${button}" class="btn btn-primary" >
+
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <!-- jQuery CDN - Slim version (=without AJAX) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+
+
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+        </script>
+        
+        <script type="text/javascript" th:src="@{/js/vehiculoFunc.js}"></script>
+
+    </body>
+</html>
